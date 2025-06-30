@@ -21,6 +21,10 @@ frontend/.env
 frontend/.env.local
 frontend/.vite
 
+# Ignore lock file
+frontend/package-lock.json
+backend/package-lock.json
+
 # === Systemowe / edytory ===
 .DS_Store
 Thumbs.db
