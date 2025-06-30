@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -14,11 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Profile {
+  id         Int        @id @default(autoincrement())
+  handle     String     @unique
+  activities Activity[]
+}
+
 model Activity {
-  id        String   @id @default(uuid())
-  handle    String
-  type      ActivityType
-  timestamp DateTime @default(now())
+  id         Int       @id @default(autoincrement())
+  type       ActivityType
+  timestamp  DateTime  @default(now())
+  profile    Profile   @relation(fields: [profileId], references: [id])
+  profileId  Int
 }
 
 enum ActivityType {
