@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ActivityForm from './components/ActivityForm';
+import ProfilesList from './components/ProfilesList';
+import AlertsList from './components/AlertsList';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [profiles, setProfiles] = useState([]);
+
+  const fetchProfiles = async () => {
+    const res = await axios.get('http://localhost:3001/profiles');
+    setProfiles(res.data);
+  };
+
+  useEffect(() => {
+    fetchProfiles();
+  }, []);
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    < div className="container mx-auto pt-6" >
+      <h1 className="text-3xl font-bold mb-6">Twitter Activity Monitor</h1>
+      <ActivityForm onSubmitted={fetchProfiles} />
+      <ProfilesList profiles={profiles} />
+      <AlertsList />
+    </div >
+  );
 }
-
-export default App
